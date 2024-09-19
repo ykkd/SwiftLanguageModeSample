@@ -7,20 +7,35 @@
 
 import Foundation
 
-class NonSendable {}
+//class NonSendable {
+//    var hoge: String = "Hoge"
+//}
+//
+//actor MyActor {
+//    func test() {
+//        let ns = NonSendable()
+//
+//        let closure = { @MainActor in
+//            print(ns.hoge)
+//        }
+//        
+//        Task {
+//            await closure() // okay
+//        }
+//    }
+//}
+// Compiled with -swift-version 6
+//class NonSendable {}
+
+class NonSendable {
+  func test() {}
+}
 
 @MainActor
-struct S {
-    let ns: NonSendable
-    
-    func getNonSendableInvalid() -> sending NonSendable {
-        // error: sending 'self.ns' may cause a data race
-        // note: main actor-isolated 'self.ns' is returned as a 'sending' result.
-        //       Caller uses could race against main actor-isolated uses.
-        return ns
+class IsolatedSubclass: NonSendable {
+  func trySendableCapture() {
+    Task.detached {
+      self.test() // error: Capture of 'self' with non-sendable type 'IsolatedSubclass' in a `@Sendable` closure
     }
-    
-    func getNonSendable() -> sending NonSendable {
-        return NonSendable() // okay
-    }
+  }
 }

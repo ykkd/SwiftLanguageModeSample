@@ -10,9 +10,13 @@ let package = Package(
         .macOS(.v10_15)
     ],
     products: [
-        .library(
-            name: "SwiftLanguageModeSample",
-            targets: ["Swift5", "Swift6"]
+        .executable(
+            name: "Swift5Sample",
+            targets: ["Swift5"]
+        ),
+        .executable(
+            name: "Swift6Sample",
+            targets: ["Swift6"]
         ),
     ],
     targets: [
