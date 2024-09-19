@@ -7,6 +7,8 @@
 
 import Foundation
 
-let a = MyActor()
-await a.test()
-try? await Task.sleep(nanoseconds: 10000000)
+// do anything here
+
+// additional time for async ops
+try? await Task.sleep(nanoseconds: 10 * 1000000000)
+print("done")
